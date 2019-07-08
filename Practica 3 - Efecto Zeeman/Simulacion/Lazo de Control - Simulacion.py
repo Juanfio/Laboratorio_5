@@ -59,7 +59,7 @@ N = 15
 
 e_t = []
 T_loop = []
-K_p = 3.90
+K_p = 1.90
 K_i = 0.5
 rango_error = 0.2 #Da cuenta de la sensibilidad del lazo.
 datos_guardados = []
@@ -115,7 +115,7 @@ data_1 = datos_guardados
 np.save("14.Lazo_simulacion",datos_guardados)
 #%%
 # En 12,13,14 el rango error es 0.2.
-data_1 = np.load("14.Lazo_simulacion.npy")
+#data_1 = np.load("14.Lazo_simulacion.npy")
 volt_davs_1 = []
 tiempo_1 = []
 temperatura_1 = [] # Temperatura leida por el ITC.
@@ -151,25 +151,16 @@ print(temperatura_1)
 
 
 #%%
+Cosas importantes lazo:
 
-#
-#total_mediciones = []
-#files_list = os.listdir('.')
-#tiempo, davs = [], []
-#files_list.pop(0)
-#
-#for s in files_list:
-#    data = np.load(s)
-#    tiempo.append(data[0])
-#    davs.append(data[2])
-#print(len(davs[0]))
-
+1. Distribucion normal cerca del cero.
+2. No se lograba corregir toda la temperatura sino la cantidad de grados dada por el tiempo que corriamos.
 #%%
 Comunicar sobre el lazo simulado:
 *. Nosotros cuando hicimos el lazo lo que habiamos hecho era que esperara 10 segundos antes de volver a correrse, 
 y que en esos 10 segundos el ITC fuera a la temperatura seteada. En la simulación eso se representaba seteando la 
-temperatura final en aquella alcanzada luego de pasar 10 segundos, bajo la hipotesis de que cada 0.5 segundos se 
-corrigen 0.001 grados. (Asumimos que al dispositivo le toma 0.5 segundos corregir 0.001 grados)
+temperatura final en aquella alcanzada luego de pasar 10 segundos, bajo la hipotesis de que cada 1 segundo se 
+corrigen 0.002 grados. (Asumimos que al dispositivo le toma 0.5 segundos corregir 0.001 grados)
 
 *. Si el voltaje corregido al ser colocado en la transformacion lineal que define la temperatura a la cual seteamos el
 ITC, da una temperatura mayor a T0 entonces la cantidad de grados que podemos corregir en esos 10 segundos los sumamos
@@ -185,5 +176,3 @@ distribucion gaussiana alrededor del voltaje que se obtenia producto de esta nue
 *. Despues de corregir la temperatura, redefinimos el voltaje de la DAVS utilizando la transformacion lineal
 y eso es lo que guardamos. Esta parte de la simulacion representa lo que en nuestro lazo haciamos al final, que era 
 guardar el valor que leia de voltaje el osciloscopio luego de haber seteado una nueva temperatura.
-
-*. Empezamos a tomar en cuenta a partir del archivo 8.
